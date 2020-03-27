@@ -51,9 +51,7 @@ You can also specify a per-host configuration in the `.ssh/config` file.
 
 ## Search for files
 
-### Search files based on name or other metadata
-
-#### `ls`
+### `ls`
 
 The command `ls` lists the current directory contents. Without any argument the objects are sorted alphabetically. Common options include:
 
@@ -71,7 +69,7 @@ The command `ls` lists the current directory contents. Without any argument the 
 ls *.csv
 ```
 
-#### `find`
+### `find`
 
 The command `find` is a powerful tool to search files in any location. Its usage is:
 
@@ -114,7 +112,7 @@ find ~/.ssh -f -name "*.pem" -exec chmod 400 '{}' \;
 
 The previous command will make the private SSH keys read-only to the file owner and deny access for other users. The curly braces are a placeholder for the output of `find`. The are enclosed in single quotes to avoid handing `grep` a malformed file name. The `grep` command ends with a semi-colon, which has to be escaped with a backslash.
 
-#### `grep`
+### `grep`
 
 `grep` finds patterns in files and print matches.  If no file is given, recursive searches examine the directory while non-recursive searches examine the standard input. It's usage is:
 
@@ -164,3 +162,106 @@ Other options include:
 * basic (default)
 * extended (called with options `-E`)
 * Perl-compatible (called with `-P`)
+
+## File system features
+
+### Monitor storage devices
+
+#### `df`: storage capacity and usage
+
+The command `df` is used to check how much storage space is available in total and to see the current utilization of drives. The default output is displayed in 1K blocks, the `-h` flag makes it more human readable.
+
+```
+df -h
+```
+
+One can exclude specific file systems with the `-x` option:
+
+```
+df -h -x tmpfs -x devtmpfs
+```
+
+#### `lsblk`: fine information about block devices
+
+A **block device** is a physical storage device where the file system is written, that reads and writes in blocks of a specific size, which applies to almost every type of non-volatile storage such as hard disk drives, solid state drives, etc.
+
+Some systems require `sudo` for `lsblk` to display correctly:
+
+```
+sudo lsblk
+```
+
+The previous command gives the output:
+
+```
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sda      8:0    0  49.6G  0 disk 
+└─sda1   8:1    0  49.6G  0 part /
+sr0     11:0    1  1024M  0 rom
+```
+
+We have one disk (`/dev/sda`) with a single partition (`/dev/sda`) being used as the `/` partition.
+
+Information relevant to the filesystem can displayed using the `--fs` option. This will show the filesystem type, the label and uuid.
+
+### Working with filesystem mounts
+
+Before one can use a new disk, it has to be partitioned, formatted with a filesystem, then the parititons or drive needs to be mounted. Partitioning and formatting are one-time processes, but mounting may be done frequently. Mounting the filesystem makes it available to the server at the selected mount point. A **mount point** is just a directory where the filesystem can be accessed.
+
+We'll review the following commands:
+
+* `mount` to attach a filesystem to the current file tree
+* `umount` (not `unmount`) to detach a filesystem
+* `findmnt` to gather info about the mounted filesystems
+
+#### `mount`
+
+`mount` is passed a formatted device or partition and a mount point (which should generally be an empty directory). The type of the filesystem can be specified with `-t`:
+
+```
+sudo mount -t ext4 /dev/sda1 /mnt
+```
+
+Mount options can be specified with `-o`. The following command mounts with default options and overrides read-write permissions and mounts as read-only:
+
+```
+sudo mount -t ext4 -o defaults,ro /dev/sda1 /mnt
+```
+
+#### `findmnt`
+
+To display the mount options used for a specific mount, pass it to the `findmnt` command. For example, if we ran `lsblk` and we see than the filesystem `/dev/sda1` is mounted on `/`:
+
+```
+$ findmnt /
+TARGET SOURCE    FSTYPE OPTIONS
+/      /dev/sda1 ext4   rw,relatime,errors=remount-ro,data=ordered
+```
+
+#### `umount`
+
+To unmount a filesystem, we simply pass the name of the mount point:
+
+```
+sudo umount /mnt
+```
+
+#### Monitor disk space use
+
+To have a quick overview of how much disk space is left on drive, use `df`. The `-h` option makes it more readable:
+
+```
+$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+udev            2.9G     0  2.9G   0% /dev
+tmpfs           598M  1.6M  596M   1% /run
+/dev/sda1        49G   23G   24G  50% /
+```
+
+`du` analyzes usage for the current directory and any subdirectory. Use the following options:
+
+* `-h` human-readable format
+* `-s` summarize results and show only grand total
+* `-c` show individual results as well as total at the bottom
+
+### Compare and manipulate file contents
