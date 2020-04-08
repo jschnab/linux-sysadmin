@@ -54,7 +54,7 @@ To remove a user you can use:
 sudo userdel -r <username>
 ```
 
-With the argument `-r` the user's home directory and its files will be deleted, as well as the user's mail spool (the default one can be found in `/etc/login.defs`). Files in other filesystems have to be searched an deleted manually.
+With the argument `-r` the user's home directory and its files will be deleted, as well as the user's mail spool (the default one can be found in `/etc/login.defs`). Files in other filesystems have to be searched and deleted manually.
 
 To delete any file this user owns, it's convenient to run:
 
@@ -99,8 +99,8 @@ A login shell is launched when a user logs in with `ssh`, `su -`, `login`, etc. 
 In Ubuntu the following scripts will be executed:
 
 * `/etc/profile` is a system-wide profile for Bourne-like shells
-* `/etc/bash/bashrc` is system-wide, too
-* all shell scripts in `/etc/profile.d/` (directory to put scripts to be executed instead of having to modify `/etc/profile`
+* `/etc/bash.bashrc` is system-wide, too
+* all shell scripts in `/etc/profile.d/` (directory to put scripts to be executed instead of having to modify `/etc/profile`)
 * `~/.bashrc` which is a user-specific profile
 
 #### Non-login shell
