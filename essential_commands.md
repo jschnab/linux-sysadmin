@@ -2,9 +2,17 @@
 
 ##  Log into local and remote graphical and text mode consoles
 
-### Create and modify a user
+### User account management
 
-To login as a specific user, this user has to be created. To create a user, one can use `adduser` or the lower-level command `useradd`.
+#### Create user accounts
+
+User information (user id, groups) can be displayed with the `id` command. For example, to show all group names that a user belongs to:
+
+```
+id -Gn <user>
+```
+
+To create a user, one can use `adduser` or the lower-level command `useradd`.
 
 ```
 sudo adduser jaynee --home /home/jaynee --shell /bin/bash
@@ -16,14 +24,55 @@ The user will be prompted for a password an personal information. The user accou
 sudo usermod --shell /bin/sh
 ```
 
-Changing the password of a user account is done with `passwd`:
+If you wanted to change your own shell, you could run `chsh -l` to see the list of available shells and then run `chsh -s /bin/sh`. You can see that the file `/etc/passwd` now shows your new shell, and on your next login you would enter the new shell.
+
+The user will be added to the `/etc/passwd` file. This file usually does not contain password information, which is encrypted and stored in the restricted file `/etc/shadow`.
+
+Changing the password of a user account is done with `passwd` (to change your own password you can omit the user login name):
 
 ```
 sudo passwd jaynee pa$$w0rd
 ```
 
-To change your own password you can omit the user login name.
+One can also change the password by piping it into `chpasswd`:
 
+```
+echo '<username>:<password>' | sudo chpasswd
+```
+
+Account age information can be viewed or modified with `chage`.  For example, to list the info:
+
+```
+sudo chage -l <username>
+```
+
+#### Delete a user account
+
+To remove a user you can use:
+
+```
+sudo userdel -r <username>
+```
+
+With the argument `-r` the user's home directory and its files will be deleted, as well as the user's mail spool (the default one can be found in `/etc/login.defs`). Files in other filesystems have to be searched an deleted manually.
+
+To delete any file this user owns, it's convenient to run:
+
+```
+sudo find /home -uid <user id> -delete
+```
+
+#### Defaults
+
+The default values for commands such as `useradd`, `usermod`, `userdel`, `groupadd`, etc. are defined in `/etc/login.defs`.
+
+Default values for `useradd` can be displayed using:
+
+```
+sudo useradd -D
+```
+
+They can also be found (and modified) in `/etc/default/useradd`.
 
 ### Log into a local account
 
@@ -33,11 +82,40 @@ You can log into an account with the `login` command (you'll be prompted for a p
 sudo login jaynee
 ```
 
-One could also *switch user* with `su` but this does not open a login shell like `login` does, so a different environment will be loaded. Use `su -` to use the target user environment.
+One could also *switch user* with `su` but this does not open a login shell like `login` does, so a different environment will be loaded. Use `su -` (same as `su -l`) to use the target user environment.
 
 ```
 su - jaynee
 ```
+
+### Login scripts
+
+We a user logs into an interactive session, scripts are run to prepare the environment. There is a difference between a **login shell** and a **non-login shell**.
+
+#### Login shell
+
+A login shell is launched when a user logs in with `ssh`, `su -`, `login`, etc. because login information is required (e.g. username and password).
+
+In Ubuntu the following scripts will be executed:
+
+* `/etc/profile` is a system-wide profile for Bourne-like shells
+* `/etc/bash/bashrc` is system-wide, too
+* all shell scripts in `/etc/profile.d/` (directory to put scripts to be executed instead of having to modify `/etc/profile`
+* `~/.bashrc` which is a user-specific profile
+
+#### Non-login shell
+
+Non-login shells are launched when one opens a new terminal, for example.
+
+In Ubuntu the following scripts will be executed:
+
+* `/etc/bash.bashrc`
+* `~/.bashrc`
+
+
+#### Home directory templates
+
+Home environment profiles set for new users are defined in the directory `/etc/skel`.
 
 ### Log into a remote account
 
