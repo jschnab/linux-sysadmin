@@ -245,12 +245,16 @@ Other options include:
 
 ### Monitor storage devices
 
-#### `df`: storage capacity and usage
+#### `df` and `du`: storage capacity and usage
 
 The command `df` is used to check how much storage space is available in total and to see the current utilization of drives. The default output is displayed in 1K blocks, the `-h` flag makes it more human readable.
 
 ```
-df -h
+$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+udev            2.9G     0  2.9G   0% /dev
+tmpfs           598M  1.6M  596M   1% /run
+/dev/sda1        49G   23G   24G  50% /
 ```
 
 One can exclude specific file systems with the `-x` option:
@@ -258,6 +262,12 @@ One can exclude specific file systems with the `-x` option:
 ```
 df -h -x tmpfs -x devtmpfs
 ```
+
+`du` analyzes usage for the current directory and any subdirectory. Use the following options:
+
+* `-h` human-readable format
+* `-s` summarize results and show only grand total
+* `-c` show individual results as well as total at the bottom
 
 #### `lsblk`: fine information about block devices
 
@@ -323,23 +333,5 @@ To unmount a filesystem, we simply pass the name of the mount point:
 ```
 sudo umount /mnt
 ```
-
-#### Monitor disk space use
-
-To have a quick overview of how much disk space is left on drive, use `df`. The `-h` option makes it more readable:
-
-```
-$ df -h
-Filesystem      Size  Used Avail Use% Mounted on
-udev            2.9G     0  2.9G   0% /dev
-tmpfs           598M  1.6M  596M   1% /run
-/dev/sda1        49G   23G   24G  50% /
-```
-
-`du` analyzes usage for the current directory and any subdirectory. Use the following options:
-
-* `-h` human-readable format
-* `-s` summarize results and show only grand total
-* `-c` show individual results as well as total at the bottom
 
 ### Compare and manipulate file contents
