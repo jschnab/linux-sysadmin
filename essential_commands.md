@@ -334,4 +334,170 @@ To unmount a filesystem, we simply pass the name of the mount point:
 sudo umount /mnt
 ```
 
-### Compare and manipulate file contents
+# Compare and manipulate file contents
+
+## Compare files
+
+### `cmp`: compare files byte by byte
+
+The `cmp` command compares files byte by byte. It will return 0 if the files
+are the same and 1 if files are different. This is often useful in an `if else`
+statement:
+
+```
+cmp -s <file 1> <file 2>
+if [[ $? -ne 0 ]]; then
+    echo "files are different"
+else
+    echo "files are the same"
+fi
+```
+
+The `-s` option makes the command silent (output is only exit code). Other
+options include:
+- `-b`: print differing bytes
+- `-i`: ignore a number of initial bytes
+- `-l`: verbose
+
+### `diff`: compare two files line by line
+
+The output of `diff` indicates how the lines in each file are different, and
+the steps involved to change one file into the other. The output has the format
+<range>[acd]<range> where the range is line numbers, while the middle character
+indicates the action: *add*, *change* or *delete*.
+
+Here is `file1.txt`:
+
+```
+my name is jonathan
+i am french
+i live in jamaica
+the is the penultimate line
+end of file
+```
+
+Here is `file2.txt`:
+
+```
+my name is jaynee
+i am american
+i live in jamaica
+end of file
+```
+
+The command `diff file1.txt file2.txt` will return the following output:
+
+```
+1,2c1,1
+< my name is jonathan
+< i am french
+---
+> my name is jaynee
+> i am american
+4d3
+< penultimate line
+```
+
+The following options can be used with `diff`:
+- `-q`: brief output
+- `-y`: show output side by side (`|` indicates a change, `<` or `>` a deletion)
+- `-s`: report identical files (identical files lead to no output by default)
+
+To compare the contents of directories, use `diff -r <dir 1> <dir 2>`
+
+### `uniq`: filter repeated lines
+
+The `uniq` command eliminates consecutively repeated lines from a file:
+
+```
+$ uniq <file>
+```
+
+### `vimdiff`: edit files in parallel
+
+To open two files with `vim` for editing, run:
+
+```
+$ vimdiff <file 1> <file 2>
+```
+
+You can navigate to a different window like you would do normally with vim:
+`Shift + w + [hjkl]`.
+
+By default the split is vertical. To split the window horizontally, use the
+`-o` option.
+
+You can quit all splits with `:qa`.
+
+## Modify file contents
+
+### `sed`: stream editor
+
+`sed` is a non-interactive *stream editor*. It receives text input (`stdin` or
+a file), performs operations on it one line at a time, then outputs the results
+(`stdout` or a file). `sed` is often one of several components in a pipe. `sed`
+determines which lines of the input it will operate on from the *address range*
+passed to it. You can specify the address range either by line number or by a
+pattern to match. Here are the basic `sed` operators:
+
+- [address-range]/p: print
+- [address-range]/d: delete
+- s/pattern1/pattern2/: substitute pattern 2 for first instance of pattern 1 in
+  a line
+- [address-range]/s/pattern1/pattern2/: substitude pattern 2 for first instance
+  of pattern 1 in a line, over *address-range*
+- [address-range]/y/pattern1/pattern2/: replace any character in pattern 1 with
+  the corresponding character in pattern 2, over address range (equivalent to
+  `tr`)
+- [address] i pattern filename: insert pattern at address in file, usually used
+  with `-i` (in-place) option
+- g: operate on every pattern match withing each matched line of input
+
+For example, to print lines starting with the word "error" from the file
+log.txt:
+
+```
+$ sed -n '/^error/p' log.txt
+```
+
+The option `-n` allows to print only the matching lines. The single-quotes are useful if this command is run in a script, to reserve the regular expression interpretation for `sed`. If the pattern was a variable which needs to be expanded, we would use double-quotes.
+
+Examples:
+
+```
+# print 4th line
+$ sed -n 4d <file>
+
+# delete 8th line
+$ sed 8d <file>
+
+# delete blank lines
+$ sed /^$/d <file>
+
+# print lines containing dog
+$ sed -n /dog/p <file>
+
+# replace every instance of Windows by Linux
+$ sed s/Windows/Linux/g <file>
+
+# delete space at end of every line
+$ sed s/ *$// <file>
+
+# delete lines containing Mac
+$ sed /Mac/d <file>
+
+# delete instances of Mac, leaving remainder of each line intact
+$ sed s/Mac//g <file>
+```
+
+# Input and output redirection
+
+# Analyze text with regular expressions
+
+# Archive, backup, compress, unpack and uncompress files
+
+# Create, delete, copy and move files and directories
+
+# Create and manage soft and hard links
+
+# List, set and change standard file permissions
