@@ -654,6 +654,106 @@ EOF
 
 ## Analyze text with regular expressions
 
+The `grep` commands is useful to search for patterns in a text (regular
+expressions). `grep` stands for *global regular expression print*.
+
+### Basic usage
+
+You can print every line of a file containing a literal pattern:
+
+```
+grep "GNU" /usr/share/common/GPL-3
+```
+
+Common options include:
+
+* `-i` ignore case
+* `-v` match lines which **do not** contain the pattern
+* `-n` print the lines the matches occur on
+* `-r` recursively search files under each directory
+* `-c` count the number of matches
+* `-w` match whole words
+
+It is also possible to use `grep` without a file. In this case, non-recursive
+calls process the standard input and recursive calls process files in each
+directory.
+
+### Regular expressions
+
+The anchor characters `^` (beginning of the line) and `$` (end of the line) specify where in the line a match must occur
+to be valid.
+
+You can match any character using `.`.
+
+By placing a group of character within bracket `[` and `]`, you specify that
+the character at this position can be any character of the bracket group. For
+example, the following regex will match *too* and *two* which form whole words:
+
+```
+grep -w "t[wo]o" file.txt
+```
+
+By beginning a bracket group with `^`, you specify a pattern which matches
+**anything except** the characters between brackets. The following command will
+match any word ending with *ode* except *code* (but will match *Code*):
+
+```
+grep -w "[^c]ode" file.txt
+```
+
+You can also specify ranges within brackets, such as `A-Z`, `a-z` or `0-9`.
+Note that POSIX character classes can also be used, for example `[:upper:]` is
+equivalent to `A-Z`. Other classes include:
+
+* `[:lower:]` for `a-z`
+* `[:alpha:]` for `A-Za-z`
+* `[:digit:]` for `0-9`
+* `[:alnum:]` for `A-Za-z0-9`
+* `[:space:]` for `\t`, `\n`, `\r`, `\f` (formfeed) or `\v` (vertical tab)
+
+To escape meta-characters, for example if you want to search for a period or a
+bracket, you need to escape these characters using a backslash `\`.
+
+### Extended regular expressions
+
+`grep` can be used with the `-E` flag to allow the use of extended regular
+expressions, which allow the use of additional meta-characters for more complex
+matches. One can also use `egrep`.
+
+#### Grouping
+
+You can group together expressions and manipulate them as a unit with the use
+of parentheses `()`, for example to reference the same group later in the expression. The following will match words which start and endt with the letters *te*. We use the *backreference* `\1` to reference the first group again.
+
+```
+grep -Ew "(te)[^ ]\1" file.txt
+```
+
+#### Alternations
+
+Alternations use the *pipe* `|` character and allow you to specify several possibilities which should be considered a match:
+
+```
+grep -E "(GPL|General Public License)" GPL-3
+```
+
+#### Quantifiers
+
+Quantifiers allow you to specify the number of occurences of characters:
+
+* `?` 0 or 1 times
+* `*` 0 or more
+* `+` 1 or more
+
+To specify the number of times a match should be repeated, use the brace
+characters `{}`. You can specify an exact number, a range, an upper bound or a
+lower bound:
+
+* {3} specifies a match repeated exactly three times
+* {3,6} repeated between three and six times
+* {5,} repeated at least five times
+* {,4} repeated at most four times
+
 ## Archive, backup, compress, unpack and uncompress files
 
 ## Create, delete, copy and move files and directories
