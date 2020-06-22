@@ -756,6 +756,157 @@ lower bound:
 
 ## Archive, backup, compress, unpack and uncompress files
 
+### Compression tools
+
+#### gzip
+
+The `gzip` tool is the "classic" method of compressing data in Linux. `gzip`
+uses the "DEFLATE" compression algorithm, which is used is other technologies
+such as the PNG image format, the HTTP web protocol and the SSH protocol.
+
+`gzip` has several strengths:
+
+* speed of compression
+* resource efficient (memory ussage)
+* compatible with almost all Linux systems
+
+However, its main disadvantage is that it compresses data less than other algorithms
+
+To compress a file and generate a file `.gz` extension:
+
+```
+gzip <file>
+```
+
+You can recursively compress an entire directory with the `-r` flag. This will
+compress each file individually, not make an archive:
+
+```
+gzip -r <directory>
+```
+
+To pipe the results into another tool, you can use the `-c` flag which will
+send compressed data to standard output:
+
+```
+gzip -c <file> > test.gz
+```
+
+You can adjust the compression rate by passing a numbered flag between 1 (least
+amount of compression) and 9 (highest compression rate):
+
+```
+gzip -9 <file>
+```
+
+The `-l` argument will display some stats about the operation
+(compression ratio, etc).
+
+Finally, file decompression is performed as follows:
+
+```
+gzip -d <file>
+```
+
+#### bzip2
+
+`bzip` uses the Burrows-Wheeler algorithm, which has several strengths and
+weaknesses compared to the DEFLATE algorithm. `bzip2` has a greater compression
+ratio than `gzip` but is slower to compress and de-compress (although the
+de-compression speed is faster than compression). The memory requirement is
+also higher than `gzip` but this is not a problem unless `bzip2` runs on
+embedded devices. In this case it is possible to pass the flag `-s` to cut
+memory requirements in half (at the price of lower compression ratio).
+
+To compress a file and yield a file with the `.bz2` extension:
+
+```
+bzip2 <file>
+```
+
+The block size used to implement compression can be passed with an integer from
+1 to 9:
+
+```
+bzip2 -1 <file>
+```
+
+File decompression is done with the `-d` flag:
+
+```
+bzip2 -d <file>
+```
+
+#### xz compression
+
+`xz` is a more recent compression tool which uses the LZMA2 algorithm. This
+algorithm has a greater compression ratio than DEFLATE or Burrows-Wheeler, at
+the cost of slower performance and more memory requirements (an order of
+magnitude higher). For example, here
+are compression times on a fairly large file:
+
+* `gzip`: 30 seconds
+* `bzip2`: 1 minue
+* `xz`: 4 minutes
+
+Decompression times for `xz` are relatively faster than compression, they are
+actually faster than `bzip2`. Memory requirements during decompression are
+higher than for `bzip2`.
+
+The following command will compress a file and yield a file with the `.xz`
+extension:
+
+```
+xz <file>
+```
+
+`xz` accepts the `-l` (print stats) and `-c` (send to stdout) flags like `gzip`.
+
+Like other compression tools, `xz` accepts numbered flags (such as `-0` up to
+`-9`) to indicate compression ratio. There is also an *extreme* compression
+ratio which can be obtained with the `-e` flags, eventually in combination with
+numbered flags:
+
+```
+xz -e -9 <file>
+```
+
+To decompress a file:
+
+```
+xz -d <file>
+```
+
+### Using tar archiving with compression
+
+Compression is often used in combination with `tar` to compress archives of
+files. This will preserve directory structure, file permissions, etc.
+
+To create a `tar` archive that is compressed with the `gzip` utility, pass the
+`-z` flag. `tar` flags don't require the leading `-` like other commands.
+
+```
+tar czvf compressed.tar.gz <directory>
+```
+
+The following flags are used:
+
+* `c` create an archive from a directory
+* `z` use gzip for compression
+* `v` verbose
+* `f` specify the archive name
+
+To extract an archive, use the `-x` flag:
+
+```
+tar xvzf compressed.tar.gz
+```
+
+Other compression tools use other flags:
+
+* `-j` to use `bzip2`
+* `-J` to use `xz`
+
 ## Create, delete, copy and move files and directories
 
 ## Create and manage soft and hard links
