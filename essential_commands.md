@@ -909,6 +909,99 @@ Other compression tools use other flags:
 
 ## Create, delete, copy and move files and directories
 
+### Create files and directories
+
+#### `touch`
+
+The command `touch` will create an empty file with the specified name and
+location.
+
+```
+touch /home/ubuntu/newfile
+```
+
+#### `mkdir`
+
+The command `mkdir` creates an empty directory.
+
+```
+mkdir /home/ubuntu/newdir
+```
+
+For the above command to work, the directory `/home/ubuntu` must already exist.
+The flag `-p` indicates that `mkdir` should create any directories necessary to
+create the given path.
+
+```
+mkdir -p /home/ubuntu/test/newdir
+```
+
+### Copy files and directories with `cp`
+
+The command `cp` can make a copy of a file. Carefully select the name of the
+copy to avoid overwriting an existing file.
+
+```
+cp file file_backup
+```
+
+To copy directories and their contents, one must include the `-r` flag
+(recursive). This is necessary regardless of whether the directory is empty. If
+the target directory already exists, the file or directory is copied *into* the
+target.
+
+```
+cp -r /home/ubuntu/Documents /home/ubuntu/Documents_backup
+```
+
+### Moving and renaming files and directories with `mv`
+
+We can move a file to a new locations using `mv`. The following command will
+move the file `file.txt` from the `Downloads` directory to the current
+directory.
+
+```
+mv ~/Downloads/file.txt .
+```
+
+One can move several specific files into a directory by using the argument `-t`
+(target) and pass the name of the directory
+
+```
+mv -t directory file1 file2 file3
+```
+
+The `mv` command can also be used to rename files and directories. Make sure
+the target name does not already exist unless you want to overwrite it.
+
+```
+mv software_install_x64_86_doixoi.tar.gz software_install.tar.gz
+```
+One can move and rename directories the same way as files. If the target
+directory already exists, the directory will be moved *into* the target.
+
+### Remove files and directories with `rm` and `rmdir`
+
+Be **very careful** with the following commands, as there is no undo!
+
+The command `rm` can be used to remove a file.
+
+```
+rm file
+```
+
+To remove *empty* directories, use `rmdir`.
+
+```
+rmdir testing/example
+```
+
+To remove *non-empty* directories, use the flag `-r` (recursive).
+
+```
+rm -r testing/sandbox
+```
+
 ## Create and manage soft and hard links
 
 ## List, set and change standard file permissions
