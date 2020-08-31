@@ -1,5 +1,25 @@
 # Essential Commands
 
+## Table of contents
+
+1. [Log into local and remote graphical and text
+   consoles](README.md#log-into-local-and-remote-graphical-and-text-mode-consoles)
+2. [Search for files](README.md#search-for-files)
+3. [File system features](README.md#file-system-features)
+4. [Compare and manipulate file
+   contents](README.md#compare-and-manipulate-file-contents)
+5. [Input and output redirection](README.md#input-and-output-redirection)
+6. [Analyze text with regular
+   expressions](README.md#analyze-text-with-regular-expressions)
+7. [Archive, backup, compress and uncompress
+   files](README.md#archive--backup--compress-and-uncompress-files)
+8. [Create, delete, copy and move files and
+   directories](README.md#create--delete--copy-and-move-files-and-directories)
+9. [Create and manage soft and hard
+   links](README.md#create-and-manage-soft-and-hard-links)
+10. [List, set and change file
+    permissions](README.md#list--set-and-change-file-permissions)
+
 ##  Log into local and remote graphical and text mode consoles
 
 ### User account management
@@ -1037,7 +1057,7 @@ When running `ls` in a directory containing symbolic links, the `@` at the end
 of the file name indicates it is a symbolic link. If we run `ls -l` we can also
 see what the links point to.
 
-## List, set and change standard file permissions
+## List, set and change file permissions
 
 These explanations were redacted by following these tutorials:
 
