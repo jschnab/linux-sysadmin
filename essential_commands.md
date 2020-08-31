@@ -119,7 +119,7 @@ Home environment profiles set for new users are defined in the directory `/etc/s
 
 ### Log into a remote account
 
-You can log into a remote machine with an SSH client using the command `ssh`. Use `ssh -i` to specify the private key which identifies you. For example:
+You can log into a remote machine with an SSH client using the command `ssh`. Use `ssh -i` to specify the private key that identifies you. For example:
 
 ```
 ssh -i ~/.ssh/myprivatekey.pem <username>@<hostname>
@@ -141,7 +141,7 @@ The command `ls` lists the current directory contents. Without any argument the 
 * `-t` sort by modification time (newest first)
 * `-u` sort by access time (newest first), with `-l` show access time but sort by name, with `-lt` sort by and show access time
 
-`ls` can be used with a file name pattern to list files which match some extension (or prefix). The following example will show only csv files:
+`ls` can be used with a file name pattern to list files that match some extension (or prefix). The following example will show only csv files:
 
 ```
 ls *.csv
@@ -205,7 +205,7 @@ The following command occurences of the word "python" in the script `user_data.s
 grep python user_data.sh
 ```
 
-The option `-v` or `--invert-match` prints line which do not match a pattern. In the next command we pipe the output of `ps` to `grep` and remove the occurence of `grep` itself in the output:
+The option `-v` or `--invert-match` prints line that do not match a pattern. In the next command we pipe the output of `ps` to `grep` and remove the occurence of `grep` itself in the output:
 
 ```
 ps ax | grep airflow | grep -v grep
@@ -218,7 +218,7 @@ grep -r python .
 ```
 
 
-To show only the file name and not the matching pattern, use `-l` of `--file-with-matches`. Here we look for names of files which contain "python", amongst shell scripts:
+To show only the file name and not the matching pattern, use `-l` of `--file-with-matches`. Here we look for names of files that contain "python", amongst shell scripts:
 
 ```
 grep -l python *.sh
@@ -436,7 +436,7 @@ You can quit all splits with `:qa`.
 `sed` is a non-interactive *stream editor*. It receives text input (`stdin` or
 a file), performs operations on it one line at a time, then outputs the results
 (`stdout` or a file). `sed` is often one of several components in a pipe. `sed`
-determines which lines of the input it will operate on from the *address range*
+determines what lines of the input it will operate on from the *address range*
 passed to it. You can specify the address range either by line number or by a
 pattern to match. Here are the basic `sed` operators:
 
@@ -460,7 +460,7 @@ log.txt:
 $ sed -n '/^error/p' log.txt
 ```
 
-The option `-n` allows to print only the matching lines. The single-quotes are useful if this command is run in a script, to reserve the regular expression interpretation for `sed`. If the pattern was a variable which needs to be expanded, we would use double-quotes.
+The option `-n` allows to print only the matching lines. The single-quotes are useful if this command is run in a script, to reserve the regular expression interpretation for `sed`. If the pattern was a variable that needs to be expanded, we would use double-quotes.
 
 Examples:
 
@@ -529,7 +529,7 @@ of the command.
 
 ### Pipelines
 
-You can connect multiple commands together with *pipelines*, which feed the
+You can connect multiple commands together with *pipelines* that feed the
 output of one command into the input of another one. For example, you can
 paginate results of a command using `less`:
 
@@ -668,7 +668,7 @@ grep "GNU" /usr/share/common/GPL-3
 Common options include:
 
 * `-i` ignore case
-* `-v` match lines which **do not** contain the pattern
+* `-v` match lines that **do not** contain the pattern
 * `-n` print the lines the matches occur on
 * `-r` recursively search files under each directory
 * `-c` count the number of matches
@@ -687,13 +687,13 @@ You can match any character using `.`.
 
 By placing a group of character within bracket `[` and `]`, you specify that
 the character at this position can be any character of the bracket group. For
-example, the following regex will match *too* and *two* which form whole words:
+example, the following regex will match *too* and *two* that form whole words:
 
 ```
 grep -w "t[wo]o" file.txt
 ```
 
-By beginning a bracket group with `^`, you specify a pattern which matches
+By beginning a bracket group with `^`, you specify a pattern that matches
 **anything except** the characters between brackets. The following command will
 match any word ending with *ode* except *code* (but will match *Code*):
 
@@ -723,7 +723,7 @@ matches. One can also use `egrep`.
 #### Grouping
 
 You can group together expressions and manipulate them as a unit with the use
-of parentheses `()`, for example to reference the same group later in the expression. The following will match words which start and endt with the letters *te*. We use the *backreference* `\1` to reference the first group again.
+of parentheses `()`, for example to reference the same group later in the expression. The following will match words that start and endt with the letters *te*. We use the *backreference* `\1` to reference the first group again.
 
 ```
 grep -Ew "(te)[^ ]\1" file.txt
@@ -731,7 +731,7 @@ grep -Ew "(te)[^ ]\1" file.txt
 
 #### Alternations
 
-Alternations use the *pipe* `|` character and allow you to specify several possibilities which should be considered a match:
+Alternations use the *pipe* `|` character and allow you to specify several possibilities that should be considered a match:
 
 ```
 grep -E "(GPL|General Public License)" GPL-3
@@ -761,7 +761,7 @@ lower bound:
 #### gzip
 
 The `gzip` tool is the "classic" method of compressing data in Linux. `gzip`
-uses the "DEFLATE" compression algorithm, which is used is other technologies
+uses the "DEFLATE" compression algorithm, which is used in other technologies
 such as the PNG image format, the HTTP web protocol and the SSH protocol.
 
 `gzip` has several strengths:
@@ -785,7 +785,7 @@ compress each file individually, not make an archive:
 gzip -r <directory>
 ```
 
-To pipe the results into another tool, you can use the `-c` flag which will
+To pipe the results into another tool, you can use the `-c` flag that will
 send compressed data to standard output:
 
 ```
@@ -839,7 +839,7 @@ bzip2 -d <file>
 
 #### xz compression
 
-`xz` is a more recent compression tool which uses the LZMA2 algorithm. This
+`xz` is a more recent compression tool that uses the LZMA2 algorithm. This
 algorithm has a greater compression ratio than DEFLATE or Burrows-Wheeler, at
 the cost of slower performance and more memory requirements (an order of
 magnitude higher). For example, here
@@ -864,7 +864,7 @@ xz <file>
 
 Like other compression tools, `xz` accepts numbered flags (such as `-0` up to
 `-9`) to indicate compression ratio. There is also an *extreme* compression
-ratio which can be obtained with the `-e` flags, eventually in combination with
+ratio that can be obtained with the `-e` flags, eventually in combination with
 numbered flags:
 
 ```
@@ -1004,4 +1004,175 @@ rm -r testing/sandbox
 
 ## Create and manage soft and hard links
 
+Soft links (symbolic links) allow you to link files and directories to other
+files and directories. When you interact with a link, you actually interact
+with the target of the link. The command to create links is `ln`.
+
+### Hard linking
+
+Hard links link directly to the inode where the item resides on the disk,
+instead of acting as a pointer to the original file, like symbolic links do.
+This means that you end up with a copy of the original, and any changes to the
+original will not be reflected. You should avoid hard linking inside of a `git`
+repository to avoid probable confusion.
+
+By default, `ln` will make a hard link instead of a soft link. To ensure we're
+creating soft links, we need to pass the `-s` or `--symbolic` argument.
+
+### Soft (symbolic) linking
+
+Symbolic linking created a file that contains the target's name and path.
+Common use cases include creating a directory in your home directory that
+points to files being synchronized by Dropbox or to link *current* to the
+latest build of a project in a directory that is dynamically named and include
+date and time.
+
+The syntax for `ln` is:
+
+```
+ln -s <target> <link name>
+```
+
+When running `ls` in a directory containing symbolic links, the `@` at the end
+of the file name indicates it is a symbolic link. If we run `ls -l` we can also
+see what the links point to.
+
 ## List, set and change standard file permissions
+
+These explanations were redacted by following these tutorials:
+
+* [intro to Linux
+  permissions](https://www.digitalocean.com/community/tutorials/an-introduction-to-linux-permissions)
+* [how to use
+  umask](https://www.digitalocean.com/community/tutorials/linux-permissions-basics-and-how-to-use-umask-on-a-vps#types-of-permissions)
+
+### View file ownership and permissions
+
+To view file ownership and permissions, run:
+
+```
+$ ls -l
+drwxr-xr-x  2 ubuntu ubuntu     4096 Jan 17  2019 folder1
+-rw-r--r--  1 ubuntu ubuntu 29645872 Aug 26 22:21 data.csv
+```
+
+This shows a list of files and directories and each columns indicates, from
+left to right:
+
+* file or directory (starts with `d`) mode
+* number of hard links
+* owner name
+* group name
+* file size (bytes)
+* date and time of last modification
+* file or directory name
+
+### Understanding mode
+
+The mode (first column in output of `ls -l`) starts with the **file type**.
+Them there are three triplets of characters that represent permission *classes*.
+The first triplet is for the **user**, the second triplet is for the **group**,
+and the last is for **other**. Each triplet indicates if the file can be read
+("r"), written ("w"), and executed ("x") or not ("-"). Permissions can also be
+represented in *octal notation* where each permission category is represented
+by a number between 0 and 7:
+
+* 4: read
+* 2: write
+* 1: execute
+
+For example, "750" means that the user has full permissions, the group has read
+and write, and others have no permissions.
+
+More concretely, these permissions mean:
+
+* **read**: view the contents of a file or view the name of the files in a
+  directory
+* **write**: modify or delete a file, delete a directory, create, modify or
+  delete files in a directory
+* **execute**: execute a file (e.g. a bash script), traverse a directory (`cd`)
+  or view its metadata (`ls -l`)
+
+Different users belong to different permission classes:
+
+* **user**: the owner of the file belongs to this class
+* **group**: members of the file's group belong to this class
+* **other**: any user not part of the user or group classes belong to this
+  class
+
+### Change file permissions
+
+The command `chmod` is used to change file permissions. `chmod` can be given
+permissions in octal notation and a file name:
+
+```
+chmod 400 ~/.ssh/mykey.pem
+```
+
+### Set file permissions
+
+The command `umask` defines default permissions for newly created files. By
+default, files have base permissions of 666 and directories have default
+permissions of 777. `umask` is given a three digit number that expresses the
+difference between base and desired permissions:
+
+```
+777 = base permissions
+755 = desired permissions
+---
+022 = number given to umask
+```
+
+For example, if we want by default to have users who are not the file owner to
+have no permissions, we would run:
+
+```
+umask 077
+```
+
+Settings applied with `umask` only apply to the current shell session. To make
+them permanent, one can add `umask xxx` to, say, `.bashrc`.
+
+### Change file ownership
+
+The command `chown` allows to change the user and group of a file, directory,
+or symbolic link. `chown` is called with the following syntax:
+
+```
+chown [options] <user>[:group] <file ...>
+```
+
+You can specify the owner with its username or ID:
+
+```
+chown 1001 file.txt
+```
+
+The group name is optional but can be changed as well:
+
+```
+chown ubuntu:engineers file.txt
+```
+
+You may change the group while keeping the same owner:
+
+```
+chown :engineers file.txt
+```
+
+When called on a sybolic link, `chown` will change the owner of the target but
+not of the link. This will trigger a "permission denied" error if you have no
+permissions on the target. To change ownership of a symlink, use the `-h`
+option:
+
+```
+chown -h ubuntu file.txt
+```
+
+To change ownership recursively throughout a directory, use the `-R` options.
+Here we change ownership of all files and subdirectories under `/var/www` to a
+new owner and group named `www-data`:
+
+```
+chown -R www-data: /var/www
+```

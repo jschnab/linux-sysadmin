@@ -18,3 +18,18 @@ We use the following options:
 * `t` displays TCP connections
 * `n` shows numerical addresses
 * `p` shows the process ID and name
+
+#### `lsof`
+
+The command `lsof` can be used to check which port are currently listening:
+
+```
+$ sudo lsof -i -P -n | grep LISTEN
+```
+
+Here we use several options:
+
+* `-i`: when not provided an Internet address, select the listing of
+all Internet network files
+* `-P`: inhibits the conversion of port names to port number for network files
+* `-n`: inhibits the conversion of network numbers to host names for network files
