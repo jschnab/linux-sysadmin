@@ -17,8 +17,7 @@
    directories](essential_commands.md#create-delete-copy-and-move-files-and-directories)
 9. [Create and manage soft and hard
    links](essential_commands.md#create-and-manage-soft-and-hard-links)
-10. [List, set and change file
-    permissions](essential_commands.md#list--set-and-change-file-permissions)
+10. [List, set and change file permissions](essential_commands.md#list--set-and-change-file-permissions)
 
 ##  Log into local and remote graphical and text mode consoles
 
