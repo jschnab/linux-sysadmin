@@ -3,22 +3,22 @@
 ## Table of contents
 
 1. [Log into local and remote graphical and text
-   consoles](README.md#log-into-local-and-remote-graphical-and-text-mode-consoles)
-2. [Search for files](README.md#search-for-files)
-3. [File system features](README.md#file-system-features)
+   consoles](essential_commands.md#log-into-local-and-remote-graphical-and-text-mode-consoles)
+2. [Search for files](essential_commands.md#search-for-files)
+3. [File system features](essential_commands.md#file-system-features)
 4. [Compare and manipulate file
-   contents](README.md#compare-and-manipulate-file-contents)
-5. [Input and output redirection](README.md#input-and-output-redirection)
+   contents](essential_commands.md#compare-and-manipulate-file-contents)
+5. [Input and output redirection](essential_commands.md#input-and-output-redirection)
 6. [Analyze text with regular
-   expressions](README.md#analyze-text-with-regular-expressions)
+   expressions](essential_commands.md#analyze-text-with-regular-expressions)
 7. [Archive, backup, compress and uncompress
-   files](README.md#archive--backup--compress-and-uncompress-files)
+   files](essential_commands.md#archive--backup--compress-and-uncompress-files)
 8. [Create, delete, copy and move files and
-   directories](README.md#create--delete--copy-and-move-files-and-directories)
+   directories](essential_commands.md#create--delete--copy-and-move-files-and-directories)
 9. [Create and manage soft and hard
-   links](README.md#create-and-manage-soft-and-hard-links)
+   links](essential_commands.md#create-and-manage-soft-and-hard-links)
 10. [List, set and change file
-    permissions](README.md#list--set-and-change-file-permissions)
+    permissions](essential_commands.md#list--set-and-change-file-permissions)
 
 ##  Log into local and remote graphical and text mode consoles
 
