@@ -11,8 +11,8 @@
 5. [Input and output redirection](essential_commands.md#input-and-output-redirection)
 6. [Analyze text with regular
    expressions](essential_commands.md#analyze-text-with-regular-expressions)
-7. [Archive, backup, compress and uncompress
-   files](essential_commands.md#archive-backup-compress-and-uncompress-files)
+7. [Archive, backup, compress, unpack and uncompress
+   files](essential_commands.md#archive-backup-compress-unpack-and-uncompress-files)
 8. [Create, delete, copy and move files and
    directories](essential_commands.md#create-delete-copy-and-move-files-and-directories)
 9. [Create and manage soft and hard
