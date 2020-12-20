@@ -8,5 +8,5 @@ The document [essential_commands.md](essential_commands.md) focuses on the most
 import Linux commands for general and routine operations. I contains all the
 sections I wanted to included, although these will probably be improved.
 
-The document [networking.md](networking.md) is very much in progress and still
-pretty empty, it will be filled soon.
+The document [networking.md](networking.md) shows how to use tools that help
+manage and troubleshoot network connectivity.

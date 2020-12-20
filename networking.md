@@ -8,7 +8,11 @@ command `ip addr` shows the configuration of network interfaces.
 
 The command `ip link` displays information about interfaces themselves, and not
 addresses. Statistics about interfaces activity is displayed with the `-s`
-flag: `ip -s link`.
+flag: 
+
+```
+$ ip -s link
+```
 
 The commands `route` and `ip route` provide information about the routing
 table, the paths to other network locations.
@@ -40,7 +44,7 @@ The utility `ss` shows similar information:
 $ ss -ltnp
 ```
 
-You can also display your network interfaces with the flag -i`:
+You can also display your network interfaces with the flag `-i`:
 
 ```
 $ netstat -i
@@ -83,7 +87,7 @@ The return value of `dig` contains several sections:
   records.
 * Additional section: any extra information provided by the resolver.
 
-The `+short` is useful to make `dig`'s results less verbose.
+The `+short` is useful to make `dig` results less verbose.
 
 ```
 $ dig www.finance-scraping.com +short
@@ -112,7 +116,7 @@ dig www.google.com +trace
 
 #### `nslookup`, `host` and `systemd-resolve`
 
-These two commands also provide DNS information about hosts and IP addresses by
+These commands also provide DNS information about hosts and IP addresses by
 querying name servers.
 
 ```
@@ -143,7 +147,8 @@ $ systemd-resolve --status
 
 The tool `iptables` is a firewall included in many Linux distributions, that
 allows to control rules (accept, deny, etc) to apply to traffic on several
-chains (INPUT, FORWARD, OUTPUT by default).
+chains (INPUT, FORWARD, OUTPUT for the `filter` routing table, which is the
+default one).
 
 You can list rules for a chain by running the following command (the *chain*
 argument is optional):
@@ -162,20 +167,22 @@ $ sudo iptables -S <chain>
 You can *flush* current rules from the firewall using the `-F` flag:
 
 ```
-$ sudo iptables -F
+$ sudo iptables -F <chain>
 ```
 
+Let's go through the simple task of configuring web and SSH access.
 When building firewall policies, it is useful to add a rule that will keep
 existing connections open.
+
 ```
 $ sudo iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 ```
 
- We are using the `conntrack` module that provides extensions to the core
- functionality of `iptables`, and the `ctstate` command of this module to
- match packets based on how they are related to packets we have already seen.
- The `-A INPUT` will *append* the rule to the end of the chain. The `j ACCEPT`
- (jump) tells what to do with the packets that match.
+We are using the `conntrack` module that provides extensions to the core
+functionality of `iptables`, and the `ctstate` command of this module to
+match packets based on how they are related to packets we have already seen.
+The `-A INPUT` will *append* the rule to the end of the chain. The `j ACCEPT`
+(jump) tells what to do with the packets that match.
 
 Now let's add two rules to accept SSH from our server and web connection from
 anywhere.
@@ -245,7 +252,6 @@ sudo service iptables save
 
 More information can be found on [this
 tutorial](https://www.digitalocean.com/community/tutorials/iptables-essentials-common-firewall-rules-and-commands).
-
 
 ### Miscellaneous
 
