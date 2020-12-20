@@ -152,17 +152,103 @@ argument is optional):
 $ sudo iptables -L <chain>
 ```
 
+Another way to print rules is to use the `-S` flat, which gives a bit more
+information about rules (like devices):
+
+```
+$ sudo iptables -S <chain>
+```
+
 You can *flush* current rules from the firewall using the `-F` flag:
 
 ```
 $ sudo iptables -F
 ```
 
+When building firewall policies, it is useful to add a rule that will keep
+existing connections open.
+```
+$ sudo iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+```
 
+ We are using the `conntrack` module that provides extensions to the core
+ functionality of `iptables`, and the `ctstate` command of this module to
+ match packets based on how they are related to packets we have already seen.
+ The `-A INPUT` will *append* the rule to the end of the chain. The `j ACCEPT`
+ (jump) tells what to do with the packets that match.
+
+Now let's add two rules to accept SSH from our server and web connection from
+anywhere.
+
+```
+$ sudo iptables -A INPUT -p tcp --dport 22 -s <IP[/mask] -j ACCEPT
+$ sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+```
+
+We used the following flags and parameters:
+
+* `-p`: protocol
+* `--dport`: port (works with the protocol)
+* `-s`: source, mask is optional
+
+We should also make sure that the machine can communicate with itself, so we
+allow connections on the loopback device.
+
+```
+$ sudo iptables -I INPUT 1 -i lo -j ACCEPT
+```
+
+We *insert* the rule in position 1 of the chain using `-I INPUT 1` to make sure
+that this rule is evaluated first. We also specify the loopback device with `-i lo`.
+
+There should be a rule that blocks connection that do not match explicit rules.
+This can be achieved by specifying a default policy, although this could lead
+to the server being unreachable if a rule allowing access is misconfigured or
+accidentally deleted. The `-P` sets the default policy for a chain.
+
+```
+$ sudo iptables -P INPUT DROP
+```
+
+It is safer to have an open default policy, but set a blocking rule at the end
+of the chain to catch connections that do not match any other rule.
+
+```
+$ sudo iptables -A INPUT -j DROP
+```
+
+To add a new rule at the end of the chain, one could delete the last rule,
+add a new rule, add the blocking rule back.
+
+```
+$ sudo iptables -D INPUT -j DROP
+$ sudo iptables -A INPUT ...
+$ sudo iptables -A INPUT -j DROP
+```
+
+One can also *insert* the new rule in penultimate position. First, find the
+relevant position by running:
+
+```
+$ sudo iptables -L --line-numbers
+```
+
+The configuration of `iptables` is ephemeral, meaning that all rules are
+deleted when the server restarts. You can easily make your firewall
+configuration persistent with the help of the `iptables-persistent` package. On
+CentOS 6 and older you can also use the `iptables` init script to save rules in
+the file `/etc/sysconfig/iptables`.
+
+```
+sudo service iptables save
+```
+
+More information can be found on [this
+tutorial](https://www.digitalocean.com/community/tutorials/iptables-essentials-common-firewall-rules-and-commands).
+
+
+### Miscellaneous
 
 `nmap -v -sT` perform a verbose TCP scan
 `iperf` to check performance of network connection
-`iptables` firewall
-`iptables -L` to list policies
-`iptables -A INPUT -p tcp --dport 21 -j DROP` to deny FTP input access
 `tcpdump` like wireshark
