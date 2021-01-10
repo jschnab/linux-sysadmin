@@ -50,7 +50,7 @@ The user will be added to the `/etc/passwd` file. This file usually does not con
 Changing the password of a user account is done with `passwd` (to change your own password you can omit the user login name):
 
 ```
-sudo passwd jaynee pa$$w0rd
+sudo passwd jaynee
 ```
 
 One can also change the password by piping it into `chpasswd`:
