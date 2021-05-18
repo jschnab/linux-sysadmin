@@ -33,7 +33,7 @@ $ netstat -ltnp | grep ':80'
 
 We use the following options:
 
-* `l` shows only listening pocket
+* `l` shows only listening sockets
 * `t` displays TCP connections
 * `n` shows numerical addresses
 * `p` shows the process ID and name
@@ -255,6 +255,21 @@ tutorial](https://www.digitalocean.com/community/tutorials/iptables-essentials-c
 
 ### Miscellaneous
 
+#### `tcpdump`
+
+The `tcpdump` utility prints a description of packets on a network interface
+matching provided arguments.
+
+```
+sudo tcpdump -n -i enp0s3 tcp port 22 and host 192.168.1.100
+```
+
+This command will show packets transiting on the interface `enp0s3` via the TCP
+protocol on port 22, with the host 192.168.1.100 as its destination.
+
+The `-A` argument will print packets in ASCII, this can be helpful.
+
+#### Others
+
 `nmap -v -sT` perform a verbose TCP scan
 `iperf` to check performance of network connection
-`tcpdump` like wireshark
