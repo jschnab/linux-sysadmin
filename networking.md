@@ -38,7 +38,10 @@ We use the following options:
 * `n` shows numerical addresses
 * `p` shows the process ID and name
 
-The utility `ss` shows similar information:
+If you dot not see the process ID of a connection, it may be because your user
+does not have enough privileges, use `sudo`.
+
+The utility `ss` now replaces `netstat` and shows similar information:
 
 ```
 $ ss -ltnp

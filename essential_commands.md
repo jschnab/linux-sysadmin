@@ -287,6 +287,32 @@ df -h -x tmpfs -x devtmpfs
 * `-h` human-readable format
 * `-s` summarize results and show only grand total
 * `-c` show individual results as well as total at the bottom
+* `-d` specifies the folder depth of the analysis
+
+A common task is to find which folders consume the most disk space. The
+following command lists folders in the current folder and shows their total
+size (including their contents):
+
+```
+du -h -d 1
+```
+
+It's not easy to find the largest folders when there are many, so it may be
+useful to sort them by size in reverse order (largest first). The following
+command shows the total size (in bytes) of folders in the current folder, and
+sorts them numerically in reverse order:
+
+```
+du -d 1 | sort -nr
+```
+
+It is often the case that system logs take up a lot of space, we can remove old
+syslog files by running the following command, which removes files older
+than 10 days:
+
+```
+journalctl --vacuum-time=10d
+```
 
 #### `lsblk`: fine information about block devices
 
